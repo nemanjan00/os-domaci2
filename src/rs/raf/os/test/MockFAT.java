@@ -3,6 +3,8 @@ package rs.raf.os.test;
 import rs.raf.os.fat.FAT16;
 import rs.raf.os.fat.FATException;
 
+import rs.raf.os.disk.SimpleDisk;
+
 public class MockFAT implements FAT16 {
 
 	private int clusterWidth;
@@ -30,7 +32,7 @@ public class MockFAT implements FAT16 {
 
 	@Override
 	public int getClusterWidth() {
-		return this.clusterCount;
+		return this.clusterWidth;
 	}
 
 	@Override

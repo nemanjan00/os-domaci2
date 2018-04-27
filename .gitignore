@@ -6,3 +6,7 @@
 
 /node_modules
 
+# logs
+
+/hs_err_*
+
