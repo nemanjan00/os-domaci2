@@ -26,15 +26,7 @@ public class MockDirectory implements Directory {
 	
 	@Override
 	public boolean writeFile(String name, byte[] data) {
-		File file = new File(name, this);
-
-		if(file.write(data)){
-			this.files.put(name, file);
-
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	@Override
