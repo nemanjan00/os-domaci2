@@ -7,6 +7,7 @@ then
 	echo "[+] Successfully compiled FAT16Test"
 else
 	echo "[-] Could not compile FAT16Test" >&2
+	notify-send 'Domaci 2': 'Could not compile FAT16Test'
 	exit 1
 fi
 
@@ -19,6 +20,7 @@ then
 	echo "[+] Successfully tested FAT16"
 else
 	echo "[-] Some tests in FAT16Test failed" >&2
+	notify-send 'Domaci 2': 'Some tests in FAT16Test failed'
 	exit 1
 fi
 
@@ -31,6 +33,7 @@ then
 	echo "[+] Successfully compiled DirectoryTest"
 else
 	echo "[-] Could not compile DirectoryTest" >&2
+	notify-send 'Domaci 2': 'Could not compile DirectoryTest'
 	exit 1
 fi
 
@@ -43,6 +46,7 @@ then
 	echo "[+] Successfully tested Directory"
 else
 	echo "[-] Some tests in DirectoryTest failed" >&2
+	notify-send 'Domaci 2': 'Some tests in DirectoryTest failed'
 	exit 1
 fi
 

@@ -3,12 +3,14 @@ package rs.raf.os.test;
 import rs.raf.os.fat.FAT16;
 import rs.raf.os.fat.FATException;
 
-import rs.raf.os.disk.SimpleDisk;
+import rs.raf.os.disk.Disk;
 
 public class MockFAT implements FAT16 {
 
 	private int clusterWidth;
 	private int clusterCount; 
+
+	private Disk disk;
 
 	public MockFAT(int clusterWidth) {
 		this.clusterWidth = clusterWidth;
