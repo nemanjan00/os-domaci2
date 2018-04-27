@@ -1,10 +1,25 @@
-[]{#anchor}Operativni Sistemi
+# Operativni Sistemi
 
-[]{#anchor-1}Drugi domaći zadatak
+<!-- vim-markdown-toc GFM -->
 
-[]{#anchor-2}Java FAT16 simulacija
+* [Drugi domaći zadatak](#drugi-domai-zadatak)
+	* [Java FAT16 simulacija](#java-fat16-simulacija)
+		* [Opis zadatka](#opis-zadatka)
+		* [Opis datih klasa i interfejsa](#opis-datih-klasa-i-interfejsa)
+			* [Interfejs Disk i klasa SimpleDisk](#interfejs-disk-i-klasa-simpledisk)
+			* [Interfejs FAT16](#interfejs-fat16)
+			* [Jedinični testovi](#jedinini-testovi)
+		* [Grafički prikaz (računarske nauke)](#grafiki-prikaz-raunarske-nauke)
+		* [Bodovanje](#bodovanje)
+	* [Rok za predaju zadatka](#rok-za-predaju-zadatka)
 
-[]{#anchor-3}Opis zadatka
+<!-- vim-markdown-toc -->
+
+## Drugi domaći zadatak
+
+### Java FAT16 simulacija
+
+#### Opis zadatka
 
 Napisati Java aplikaciju koja simulira rad FAT16 diska, uz grafički
 prikaz skladištenja podataka u simulirane klastere fajl sistema i
@@ -35,9 +50,9 @@ tako da priloženi jedinični testovi prolaze sa tim implementacijama.
 Trenutno testovi koriste "mock" implementaciju za FAT16 i Directory, i
 padaju na svim proverama.
 
-[]{#anchor-4}Opis datih klasa i interfejsa
+#### Opis datih klasa i interfejsa
 
-[]{#anchor-5}Interfejs Disk i klasa SimpleDisk
+##### Interfejs Disk i klasa SimpleDisk
 
 Predstavlja implementaciju diska. Pri konstruisanju diska se navodi
 veličina za sektor na disku, kao i ukupan broj sektora.
@@ -59,7 +74,7 @@ veličini diska, respektivno.
 Validna implementacija ovog interfejsa je takođe priložena, pod nazivom
 SimpleDisk, i nju treba koristiti pri izradi domaćeg zadatka.
 
-[]{#anchor-6}Interfejs FAT16
+##### Interfejs FAT16
 
 Predstavlja implementaciju FAT16 sistema datoteka. Prvi deo domaćeg
 zadatka se odnosi na implementaciju ovog interfejsa.
@@ -108,35 +123,35 @@ Za potrebe domaćeg je neophodno implementirati sledeće FAT16 operacije:
 Primer korišćenja FAT tabele sa četiri klastera, širina klastera je
 jedan sektor:
 
+ ```java
  \@Test
 
  public void simpleWriteReadTest() {
 
- //4 clusters, each one sector width
+	//4 clusters, each one sector width
 
- FAT16 fat = new MockFAT(1, 4);
+	FAT16 fat = new MockFAT(1, 4);
 
- assertEquals(1, fat.getClusterWidth());
+	assertEquals(1, fat.getClusterWidth());
 
- assertEquals(4, fat.getClusterCount());
+	assertEquals(4, fat.getClusterCount());
 
- assertEquals(0xFFF8, fat.getEndOfChain());
+	assertEquals(0xFFF8, fat.getEndOfChain());
 
- fat.writeCluster(2, 3);
+	fat.writeCluster(2, 3);
 
- fat.writeCluster(5, 4);
+	fat.writeCluster(5, 4);
 
- assertEquals(3, fat.readCluster(2));
+	assertEquals(3, fat.readCluster(2));
 
- assertEquals(4, fat.readCluster(5));
+	assertEquals(4, fat.readCluster(5));
 
- assertEquals(\"\[3\|0\|0\|4\]\", fat.getString());
+	assertEquals(\"\[3\|0\|0\|4\]\", fat.getString());
 
  }
+```
 
-[]{#anchor-7}
-
-[]{#anchor-8}Interfejs Directory
+##### Interfejs Directory
 
 Ovaj interfejs opisuje direktorijum koji na zadatom disku zapisuje
 datoteke pomoću zadatog FAT. Nudi korisniku mogućnost da zapisuje nizove
@@ -184,63 +199,65 @@ Nakon što se Java program završi "zapisane" datoteke mogu da nestanu.
 
 Primer korišćenja Directory interfejsa:
 
+ ```java
  \@Test
 
  public void simpleWriteReadTest() {
 
- //4 clusters, each one sector width
+	//4 clusters, each one sector width
 
- FAT16 fat = new MockFAT(1, 4);
+	FAT16 fat = new MockFAT(1, 4);
 
- //sectors are 40 bytes, 10 of them on disk
+	//sectors are 40 bytes, 10 of them on disk
 
- Disk disk = new SimpleDisk(40, 10);
+	Disk disk = new SimpleDisk(40, 10);
 
- Directory dir = new MockDirectory(fat, disk);
+	Directory dir = new MockDirectory(fat, disk);
 
- //50 bytes of data, should take up two clusters, which are two sectors
+	//50 bytes of data, should take up two clusters, which are two sectors
 
- byte\[\] data = new byte\[50\];
+	byte\[\] data = new byte\[50\];
 
- for(int i = 0; i \< 50; i++) {
+	for(int i = 0; i \< 50; i++) {
 
- data\[i\] = (byte)(i\*2);
+		data\[i\] = (byte)(i\*2);
+
+	}
+
+	//160 allocatable bytes - FAT is smaller than actual disk
+
+	assertEquals(160, dir.getUsableTotalSpace());
+
+	assertEquals(160, dir.getUsableFreeSpace());
+
+	if (dir.writeFile(\"Even\", data)) {
+
+		byte\[\] readData = dir.readFile(\"Even\");
+
+		assertEquals(50, readData.length);
+
+		for (int i = 0; i \< 50; i++) {
+
+			assertEquals((byte)(i\*2), readData\[i\]);
+
+		}
+
+	} else {
+
+		fail(\"Could not write file\");
+
+	}
+
+	assertEquals(\"\[3\|65528\|0\|0\]\", fat.getString());
+
+	assertEquals(160, dir.getUsableTotalSpace());
+
+	assertEquals(80, dir.getUsableFreeSpace());
 
  }
+```
 
- //160 allocatable bytes - FAT is smaller than actual disk
-
- assertEquals(160, dir.getUsableTotalSpace());
-
- assertEquals(160, dir.getUsableFreeSpace());
-
- if (dir.writeFile(\"Even\", data)) {
-
- byte\[\] readData = dir.readFile(\"Even\");
-
- assertEquals(50, readData.length);
-
- for (int i = 0; i \< 50; i++) {
-
- assertEquals((byte)(i\*2), readData\[i\]);
-
- }
-
- } else {
-
- fail(\"Could not write file\");
-
- }
-
- assertEquals(\"\[3\|65528\|0\|0\]\", fat.getString());
-
- assertEquals(160, dir.getUsableTotalSpace());
-
- assertEquals(80, dir.getUsableFreeSpace());
-
- }
-
-[]{#anchor-9}Jedinični testovi
+##### Jedinični testovi
 
 Kratki Java programi koji su napisani tako da proveravaju validnost
 implementacije. Izvršavaju se "Run As -\> JUnit Test". Svaka assert\*
@@ -255,7 +272,7 @@ Isprva svi priloženi testovi padaju, zato što su implementacije za FAT16
 i Directory prazne. Sa pravilnom implementacijom ovih interfejsa svi
 testovi treba da prolaze.
 
-[]{#anchor-10}Grafički prikaz (računarske nauke)
+#### Grafički prikaz (računarske nauke)
 
 Pored implementacije direktorijuma nad FAT16 diskom, treba napraviti i
 GUI prikaz rada ovog sistema. GUI treba da sadrži:
@@ -278,7 +295,7 @@ GUI prikaz rada ovog sistema. GUI treba da sadrži:
     se konstruiše direktorijum, u njega se smeste neke datoteke, i
     pokrene se prikaz ova dva prozora nad tim direktorijumom.
 
-[]{#anchor-11}Bodovanje
+#### Bodovanje
 
 -   Računarske nauke:
 
@@ -301,7 +318,7 @@ Napomene:
 -   Domaći se radi isključivo individualno - studenti koji rade grupno
     će dobiti 0 poena
 
-[]{#anchor-12}Rok za predaju zadatka
+### Rok za predaju zadatka
 
 Zadatak se predaje putem mail-a na
 [*bmilojkovic\@raf.rs*](mailto:bmilojkovic@raf.rs) ili
