@@ -1,6 +1,6 @@
 echo "[=] Compiling FAT16Test"
 
-javac -cp ./src:./assets/junit.jar -d ./bin ./src/rs/raf/os/test/FAT16Test.java
+javac -cp ./src:./.assets/junit.jar -d ./bin ./src/rs/raf/os/test/FAT16Test.java
 
 if [ $? -eq 0 ]
 then
@@ -13,7 +13,7 @@ fi
 
 echo "[=] Testing FAT16Test"
 
-java -cp ./bin:./assets/junit.jar:./assets/hamcrest-core.jar org.junit.runner.JUnitCore rs.raf.os.test.FAT16Test
+java -cp ./bin:./.assets/junit.jar:./.assets/hamcrest-core.jar org.junit.runner.JUnitCore rs.raf.os.test.FAT16Test
 
 if [ $? -eq 0 ]
 then
@@ -26,7 +26,7 @@ fi
 
 echo "Compiling DirectoryTest"
 
-javac -cp ./src:./assets/junit.jar -d ./bin ./src/rs/raf/os/test/DirectoryTest.java
+javac -cp ./src:./.assets/junit.jar -d ./bin ./src/rs/raf/os/test/DirectoryTest.java
 
 if [ $? -eq 0 ]
 then
@@ -39,7 +39,7 @@ fi
 
 echo "[=] Testing DirectoryTest"
 
-java -cp ./bin:./assets/junit.jar:./assets/hamcrest-core.jar org.junit.runner.JUnitCore rs.raf.os.test.DirectoryTest
+java -cp ./bin:./.assets/junit.jar:./.assets/hamcrest-core.jar org.junit.runner.JUnitCore rs.raf.os.test.DirectoryTest
 
 if [ $? -eq 0 ]
 then
