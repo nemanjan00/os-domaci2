@@ -1,3 +1,4 @@
 language: java
 script: 
+- mkdir ./bin
 - ./.automation/test.sh
