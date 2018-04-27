@@ -89,14 +89,13 @@ public class MockDirectory implements Directory {
 		int usableTotalSpace = this.getUsableTotalSpace();
 
 		for(Map.Entry<String, File> entry: this.files.entrySet()) {
-			String name = entry.getKey();
 			File file = entry.getValue();
 
 			// TODO: ceil file.size to * of cluster size
 			usableTotalSpace -= file.size;
 		}
 
-		return 0;
+		return usableTotalSpace;
 	}
 }
 
