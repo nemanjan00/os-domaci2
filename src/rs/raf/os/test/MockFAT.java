@@ -5,30 +5,31 @@ import rs.raf.os.fat.FATException;
 
 public class MockFAT implements FAT16 {
 
+	private int clusterWidth;
+	private int clusterCount; 
+
 	public MockFAT(int clusterWidth) {
-		// TODO Auto-generated constructor stub
+		this.clusterWidth = clusterWidth;
 	}
 	
 	public MockFAT(int clusterWidth, int clusterCount) {
-		// TODO Auto-generated constructor stub
+		this.clusterWidth = clusterWidth;
+		this.clusterCount = clusterCount;
 	}
 	
 	@Override
 	public int getEndOfChain() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 0xFFF8;
 	}
 
 	@Override
 	public int getClusterCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.clusterCount;
 	}
 
 	@Override
 	public int getClusterWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.clusterCount;
 	}
 
 	@Override
