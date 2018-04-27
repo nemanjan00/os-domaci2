@@ -1,0 +1,13 @@
+{
+  "name": "OS_FAT",
+  "version": "0.0.0",
+  "description": "OS homework",
+  "main": "index.js",
+  "repository": "https://gitlab.com/domaci/os/domaci2",
+  "author": "Nemanja Nedeljkovic <nemanjan00@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "nodemon": "^1.17.3"
+  }
+}

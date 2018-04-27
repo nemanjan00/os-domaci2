@@ -10,6 +10,7 @@ public class MockFAT implements FAT16 {
 
 	public MockFAT(int clusterWidth) {
 		this.clusterWidth = clusterWidth;
+		this.clusterCount = 0xFFEF-2;
 	}
 	
 	public MockFAT(int clusterWidth, int clusterCount) {
