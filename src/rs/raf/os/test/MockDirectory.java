@@ -49,6 +49,16 @@ public class MockDirectory implements Directory {
 	@Override
 	public void deleteFile(String name) throws DirectoryException {
 		if(this.files.containsKey(name)){
+			File file = this.files.get(name);
+
+			int cluster = file.cluster;
+
+			do {
+				cluster = this.fat.readCluster(cluster);
+				this.fat.writeCluster(cluster, 0);
+			} while(cluster != this.fat.getEndOfChain());
+
+			this.files.remove(name);
 		} else {
 			throw new DirectoryException("File not found! ");
 		}
@@ -90,7 +100,8 @@ public class MockDirectory implements Directory {
 			String name = entry.getKey();
 			File file = entry.getValue();
 
-			usableTotalSpace -= file.getSize();
+			// TODO: ceil file.size to * of cluster size
+			usableTotalSpace -= file.size;
 		}
 
 		return 0;
@@ -98,48 +109,14 @@ public class MockDirectory implements Directory {
 }
 
 class File {
-	int cluster;
 	String name;
+	int size;
+	int cluster;
 
-	MockDirectory directory;
-
-	public File(String name, MockDirectory directory){
-		this.cluster = cluster;
+	public File(String name, int size, int cluster){
+		this.size = size;
 		this.name = name;
-
-		this.directory = directory;
-	}
-
-	public boolean write(byte[] data){
-		FAT16 fat = this.directory.fat;
-
-		int lastCluster = 0;
-
-		for(int i = 2; i < fat.getClusterCount() + 2; i++){
-			if(fat.readCluster(getClusterCount) == 0){
-				
-			}
-		}
-
-		return true;
-	}
-
-	public int getSize(){
-		int clusterSize = this.directory.fat.getClusterWidth();
-		int sectorSize = this.directory.disk.getSectorSize();
-
-		clusterSize *= sectorSize;
-
-		int counter = 0;
-		int cluster = this.cluster;
-
-		do {
-			counter++;
-			
-			cluster = this.directory.fat.readCluster(cluster);
-		} while(cluster != this.directory.fat.getEndOfChain());
-
-		return counter * clusterSize;
+		this.cluster = cluster;
 	}
 }
 
