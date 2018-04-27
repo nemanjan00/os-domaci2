@@ -45,7 +45,7 @@ public class MockFAT implements FAT16 {
 
 	@Override
 	public int readCluster(int clusterID) throws FATException {
-		if(clusterID >= 2 && clusterID <= this.clusterCount + 2){
+		if(clusterID >= 2 && clusterID < this.clusterCount + 2){
 			return this.table[clusterID - 2];
 		} else {
 			throw new FATException("Cluster ID out of range");
@@ -54,8 +54,8 @@ public class MockFAT implements FAT16 {
 
 	@Override
 	public void writeCluster(int clusterID, int valueToWrite) throws FATException {
-		if(clusterID >= 2 && clusterID <= this.clusterCount + 2){
-			this.table[clusterID] = valueToWrite;
+		if(clusterID >= 2 && clusterID < this.clusterCount + 2){
+			this.table[clusterID - 2] = valueToWrite;
 		} else {
 			throw new FATException("Cluster ID out of range");
 		}
