@@ -26,14 +26,21 @@ public class MockDirectory implements Directory {
 	
 	@Override
 	public boolean writeFile(String name, byte[] data) {
-		// TODO Auto-generated method stub
+		File file = new File(name, this);
+
+		if(file.write(data)){
+			this.files.put(name, file);
+
+			return true;
+		}
+
 		return false;
 	}
 
 	@Override
 	public byte[] readFile(String name) throws DirectoryException {
 		if(this.files.containsKey(name)){
-			return new byte[1];	
+			return new byte[1];
 		} else {
 			throw new DirectoryException("File not found! ");
 		}
@@ -41,7 +48,10 @@ public class MockDirectory implements Directory {
 
 	@Override
 	public void deleteFile(String name) throws DirectoryException {
-		// TODO Auto-generated method stub
+		if(this.files.containsKey(name)){
+		} else {
+			throw new DirectoryException("File not found! ");
+		}
 		
 	}
 
@@ -85,7 +95,6 @@ public class MockDirectory implements Directory {
 
 		return 0;
 	}
-
 }
 
 class File {
@@ -94,11 +103,25 @@ class File {
 
 	MockDirectory directory;
 
-	public File(int cluster, String name, MockDirectory directory){
+	public File(String name, MockDirectory directory){
 		this.cluster = cluster;
 		this.name = name;
 
 		this.directory = directory;
+	}
+
+	public boolean write(byte[] data){
+		FAT16 fat = this.directory.fat;
+
+		int lastCluster = 0;
+
+		for(int i = 2; i < fat.getClusterCount() + 2; i++){
+			if(fat.readCluster(getClusterCount) == 0){
+				
+			}
+		}
+
+		return true;
 	}
 
 	public int getSize(){
