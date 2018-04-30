@@ -18,7 +18,7 @@ public class MockDirectory implements Directory {
 	FAT16 fat;
 	Disk disk;
 
-	TreeMap<String, File> files;
+	public TreeMap<String, File> files;
 
 	public MockDirectory(FAT16 fat, Disk disk) {
 		this.fat = fat;
@@ -166,18 +166,6 @@ public class MockDirectory implements Directory {
 		}
 
 		return usableTotalSpace;
-	}
-}
-
-class File {
-	String name;
-	int size;
-	int cluster;
-
-	public File(String name, int size, int cluster){
-		this.size = size;
-		this.name = name;
-		this.cluster = cluster;
 	}
 }
 
