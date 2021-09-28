@@ -8,6 +8,6 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "nodemon": "^1.17.3"
+    "nodemon": "^2.0.3"
   }
 }
